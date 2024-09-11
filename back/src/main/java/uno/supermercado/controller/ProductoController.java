@@ -7,6 +7,9 @@ import uno.supermercado.service.ProductoService;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -49,5 +52,17 @@ public class ProductoController {
     @DeleteMapping("/{id}")
     public void deleteProducto(@PathVariable int id) {
 
+    }
+
+    @GetMapping("/{id}/image")
+    public ResponseEntity<Resource> getProductoImage(@PathVariable Long id) {
+        try {
+            Resource resource = productoService.getProductoImage(id);
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
