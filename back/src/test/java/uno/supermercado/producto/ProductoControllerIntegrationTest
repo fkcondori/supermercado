@@ -1,0 +1,106 @@
+package uno.supermercado.controller;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import uno.supermercado.model.Producto;
+import uno.supermercado.repository.ProductoRepository;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class ProductoControllerIntegrationTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ProductoRepository productoRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Test
+    public void testGetAllProductos() throws Exception {
+        mockMvc.perform(get("/api/productos"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
+    }
+
+    @Test
+    public void testGetProductoById() throws Exception {
+        Producto producto = new Producto();
+        producto.setNombre("Test Producto");
+        producto.setDescripcion("Test Descripcion");
+        producto.setPrecio(10.0);
+        producto.setImagen("test.jpg");
+        producto.setMarca("Test Marca");
+        producto = productoRepository.save(producto);
+
+        mockMvc.perform(get("/api/productos/" + producto.getIdProducto()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nombre").value("Test Producto"));
+    }
+
+    @Test
+    public void testCreateProducto() throws Exception {
+        Producto producto = new Producto();
+        producto.setNombre("New Producto");
+        producto.setDescripcion("New Descripcion");
+        producto.setPrecio(10.0);
+        producto.setImagen("new.jpg");
+        producto.setMarca("New Marca");
+
+        mockMvc.perform(post("/api/productos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(producto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nombre").value("New Producto"));
+    }
+
+    @Test
+    public void testUpdateProducto() throws Exception {
+        Producto producto = new Producto();
+        producto.setNombre("Update Producto");
+        producto.setDescripcion("Update Descripcion");
+        producto.setPrecio(10.0);
+        producto.setImagen("update.jpg");
+        producto.setMarca("Update Marca");
+        producto = productoRepository.save(producto);
+
+        producto.setNombre("Updated Producto");
+
+        mockMvc.perform(put("/api/productos/" + producto.getIdProducto())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(producto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nombre").value("Updated Producto"));
+    }
+
+    @Test
+    public void testDeleteProducto() throws Exception {
+        Producto producto = new Producto();
+        producto.setNombre("Delete Producto");
+        producto.setDescripcion("Delete Descripcion");
+        producto.setPrecio(10.0);
+        producto.setImagen("delete.jpg");
+        producto.setMarca("Delete Marca");
+        producto = productoRepository.save(producto);
+
+        mockMvc.perform(delete("/api/productos/" + producto.getIdProducto()))
+                .andExpect(status().isOk());
+
+        assertThat(productoRepository.findById(producto.getIdProducto())).isEmpty();
+    }
+}

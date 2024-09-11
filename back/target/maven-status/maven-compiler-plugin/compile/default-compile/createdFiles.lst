@@ -1,0 +1,12 @@
+uno/supermercado/controller/CategoriaController.class
+uno/supermercado/model/Categoria$CategoriaBuilder.class
+uno/supermercado/controller/ProductoController.class
+uno/supermercado/model/Producto.class
+uno/supermercado/repository/ProductoRepository.class
+uno/supermercado/model/Categoria.class
+uno/supermercado/service/CategoriaService.class
+uno/supermercado/service/ProductoService.class
+uno/supermercado/exception/ActualizarException.class
+uno/supermercado/SupermercadoApplication.class
+uno/supermercado/model/Producto$ProductoBuilder.class
+uno/supermercado/repository/CategoriaRepository.class
