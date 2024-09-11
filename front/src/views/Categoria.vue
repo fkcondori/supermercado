@@ -25,11 +25,11 @@
               <td>{{ formatDate(categoria.fechaCreacion) }}</td>
               <td>{{ formatDate(categoria.fechaActualizacion) }}</td>
               <td class="d-flex">
-                <button @click="verProductos(categoria.id)" class="btn btn-primary btn-sm me-2"><i class="fa-regular fa-eye"></i></button>
-                <button @click="editarCategoria(categoria.id)" class="btn btn-warning btn-sm me-2">
+                <button @click="verProductos(categoria.id)" class="btn btn-peq btn-primary btn-sm me-2"><i class="fa-regular fa-eye"></i></button>
+                <button @click="editarCategoria(categoria.id)" class="btn btn-peq btn-warning btn-sm me-2">
                   <i class="fa-regular fa-pen-to-square"></i>
                 </button>
-                <button @click="eliminarCategoria(categoria.id)" class="btn btn-danger btn-sm">
+                <button @click="eliminarCategoria(categoria.id)" class="btn btn-peq btn-danger btn-sm">
                   <i class="fa-solid fa-trash-can"></i>
                 </button>
               </td>
@@ -179,7 +179,14 @@
   
   .btn {
     margin: 0.1rem;
-    width: 120px; /* Asegura que todos los botones tengan el mismo tamaño */
+    width: 110px; /* Asegura que todos los botones tengan el mismo tamaño */
+    display: inline-flex; /* Asegura que el contenido del botón esté centrado */
+    justify-content: center; /* Centra el texto dentro del botón */
+  }
+
+  .btn.btn-peq {
+    margin: 0.1rem;
+    width: 30px !important; /* Asegura que todos los botones tengan el mismo tamaño */
     display: inline-flex; /* Asegura que el contenido del botón esté centrado */
     justify-content: center; /* Centra el texto dentro del botón */
   }

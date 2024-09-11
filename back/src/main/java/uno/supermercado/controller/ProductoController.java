@@ -17,7 +17,7 @@ public class ProductoController {
     private ProductoService productoService;
 
     @GetMapping
-    public List<Producto> getAllCromos() {
+    public List<Producto> getAllProductos() {
         return productoService.findAll();
     }
 

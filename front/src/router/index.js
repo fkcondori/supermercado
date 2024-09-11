@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 import Inicio from '../views/Inicio.vue';
 import Categoria from "../views/Categoria.vue";
 import Producto from "../views/Producto.vue";
@@ -15,9 +15,10 @@ const routes = [
     component: Categoria,
   },
   {
-    path: "/producto",
-    name: "producto",
+    path: "/productos",
+    name: "Producto",
     component: Producto,
+    props: true,
   },
 ];
 
