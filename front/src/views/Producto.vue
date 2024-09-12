@@ -6,7 +6,7 @@
     <div class="row">
       <div class="col-md-4" v-for="producto in productos" :key="producto.id">
         <div class="card mb-4" style="width: 18rem;">
-          <img :src="getImageUrl(producto.imagen)" class="card-img-top" alt="Imagen del producto">
+          <img :src="getImageApi(producto.idProducto)" class="card-img-top" alt="Imagen del producto">
           <div class="card-body">
             <h5 class="card-title">{{ producto.nombre }}</h5>
             <p class="card-text">{{ producto.descripcion }}</p>
@@ -49,7 +49,6 @@ export default {
       return `/images/${imagen}`;
     },
     getImageApi(idProducto) { // Devuelve la URL de la imagen de la carpeta de imágenes del backend a través de la API
-      // TODO Que no devuelva siempre la misma imagen
       return `/api/productos/${idProducto}/image`;
     },
   },

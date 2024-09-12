@@ -43,11 +43,11 @@ public class ProductoService {
     }
 
     // EN EL OTRO PROYECTO UTILIZAN EL PAQUETE NIO Y POR ESO NO DAN EXCEPCIONES
-    public Resource getProductoImage(Long albumId) throws IOException {
-        Producto producto = productoRepository.findById(albumId)
+    public Resource getProductoImage(Long productoId) throws IOException {
+        Producto producto = productoRepository.findById(productoId)
                 .orElseThrow(() -> new IllegalArgumentException("Álbum no encontrado"));
 
-        Path filePath = Paths.get("/home/keyla/Desktop/proyectos/supermercado/back/src/images/leche.jpg");
+        Path filePath = Paths.get("/home/keyla/Desktop/proyectos/supermercado/back/src/images/" + producto.getImagen());
         Resource resource = new UrlResource(filePath.toUri());
 
         if (resource.exists() || resource.isReadable()) {
