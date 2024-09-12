@@ -14,7 +14,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import uno.supermercado.model.Categoria;
+import uno.supermercado.model.Producto;
 import uno.supermercado.repository.CategoriaRepository;
+import uno.supermercado.repository.ProductoRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -25,6 +27,9 @@ public class CategoriaControllerIntegrationTest {
 
     @Autowired
     private CategoriaRepository categoriaRepository;
+
+    @Autowired
+    private ProductoRepository productoRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -40,20 +45,17 @@ public class CategoriaControllerIntegrationTest {
         // Ejecutar y verificar
         mockMvc.perform(get("/api/categorias"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].nombre").value("Categoria 1"))
+                .andExpect(jsonPath("$[0].nombre").value("Lácteos"))
                 .andExpect(jsonPath("$").isArray());
     }
 
     @Test
     public void testGetCategoriaById() throws Exception {
-        Categoria categoria = new Categoria();
-        categoria.setNombre("Test Categoria");
-        categoria.setDescripcion("Test Descripcion");
-        categoria = categoriaRepository.save(categoria);
-
-        mockMvc.perform(get("/api/categorias/" + categoria.getId()))
+        // Ejecutar la petición GET para la categoría con ID 1
+        mockMvc.perform(get("/api/categorias/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nombre").value("Test Categoria"));
+                .andExpect(jsonPath("$[0].nombre").value("Leche Entera"))
+                .andExpect(jsonPath("$[1].nombre").value("Queso Cheddar"));
     }
 
     @Test
@@ -93,7 +95,7 @@ public class CategoriaControllerIntegrationTest {
         categoria = categoriaRepository.save(categoria);
 
         mockMvc.perform(delete("/api/categorias/" + categoria.getId()))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         assertThat(categoriaRepository.findById(categoria.getId())).isEmpty();
     }
