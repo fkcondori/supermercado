@@ -13,13 +13,16 @@ import org.mockito.MockitoAnnotations;
 
 import uno.supermercado.controller.CategoriaController;
 import uno.supermercado.model.Categoria;
-import uno.supermercado.repository.CategoriaRepository;
+import uno.supermercado.repository.*;
 import uno.supermercado.service.CategoriaService;
 
 public class CategoriaServiceTest {
 
     @Mock
     private CategoriaRepository categoriaRepository;
+
+    @Mock
+    private ProductoRepository productoRepository;
 
     @InjectMocks
     private CategoriaService categoriaService;

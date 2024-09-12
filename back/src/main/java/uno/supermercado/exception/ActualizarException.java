@@ -17,4 +17,5 @@ public class ActualizarException extends RuntimeException {
     public ActualizarException(String message, Long id) {
         super(String.format("%s (ID: %d)", message, id));
     }
+
 }

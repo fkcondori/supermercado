@@ -7,14 +7,14 @@ import { RouterLink, RouterView } from 'vue-router'
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li class="nav-item px-2 text-secondary">
-            <RouterLink to="/" class="active">Inicio</RouterLink>
+          <li class="nav-item px-2">
+            <RouterLink to="/" class="nav-link">Inicio</RouterLink>
           </li>
-          <li class="nav-item px-2 text-white">
-            <RouterLink to="/categoria" class="active">Categorías</RouterLink>
+          <li class="nav-item px-2">
+            <RouterLink to="/categoria" class="nav-link">Categorías</RouterLink>
           </li>
-          <li class="nav-item px-2 text-white">
-            <RouterLink to="/productos" class="active">Productos</RouterLink>
+          <li class="nav-item px-2">
+            <RouterLink to="/productos" class="nav-link">Productos</RouterLink>
           </li>
         </ul>
       </div>
@@ -22,20 +22,34 @@ import { RouterLink, RouterView } from 'vue-router'
   </header>
   <div class="container">
     <div class="row">
-    <div class="col-12">
-    <main>
+      <div class="col-12">
+        <main>
           <!-- Contenido dinámico -->
-      <RouterView />
-    </main>
+          <RouterView />
+        </main>
+      </div>
     </div>
   </div>
-  </div>
-
 </template>
 
 <style scoped>
-main {
-  display: block !important;
+/* Asegura que html y body ocupen el 100% de la pantalla */
+html, body {
+  height: 100vh;
+  margin: 0;
+}
+
+/* Asegura que el contenedor ocupe el 100% del alto de la pantalla */
+.inicio-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay-text {
+  position: absolute;
+  z-index: 10;
 }
 
 header {
@@ -45,36 +59,28 @@ header {
   top: 0;
   left: 0;
   z-index: 1000; /* Para que esté por encima del contenido */
-  background-color: #343a40; /* Color de fondo del header */
+  background: linear-gradient(90deg, #343a40, #495057); /* Gradiente de fondo */
+  padding: 1rem 0; /* Ajusta el padding */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
 }
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+.nav-link {
+  color: #ffffff; /* Color de los enlaces */
+  font-size: 1rem; /* Tamaño de fuente */
+  font-weight: 500; /* Peso de la fuente */
+  transition: color 0.3s ease; /* Transición para el efecto hover */
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+.nav-link:hover {
+  color: #adb5bd; /* Color al pasar el ratón */
+  text-decoration: underline; /* Subrayado al pasar el ratón */
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
+.nav-item {
+  margin: 0 0.5rem; /* Espaciado entre los elementos del menú */
 }
 
 main {
-  margin-top: 6rem; /* Ajusta el margen superior para evitar el header */
   width: 100%;
   padding: 1rem; /* Agrega un padding para evitar que el contenido toque los bordes */
 }

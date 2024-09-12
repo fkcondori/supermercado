@@ -1,16 +1,23 @@
 package uno.supermercado.controller;
 
 import uno.supermercado.exception.ActualizarException;
+import uno.supermercado.model.Categoria;
 import uno.supermercado.model.Producto;
+import uno.supermercado.service.CategoriaService;
 import uno.supermercado.service.ProductoService;
 
+import java.io.FileOutputStream;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import lombok.extern.java.Log;
 
 @RestController
 @RequestMapping("/api/productos")
@@ -18,6 +25,9 @@ public class ProductoController {
 
     @Autowired
     private ProductoService productoService;
+
+    @Autowired
+    private CategoriaService categoriaService;
 
     @GetMapping
     public List<Producto> getAllProductos() {
@@ -33,25 +43,104 @@ public class ProductoController {
         return producto;
     }
 
-    @PostMapping
-    public Producto createProducto(@RequestBody Producto producto) {
-        return productoService.save(producto);
+    // @PostMapping
+    // public Producto createProducto(@RequestBody Producto producto) {
+    // return productoService.save(producto);
 
+    // }
+
+    @PostMapping
+    public ResponseEntity<Producto> crearProducto(
+            @RequestParam("nombre") String nombre,
+            @RequestParam("descripcion") String descripcion,
+            @RequestParam("origenProducto") String origenProducto,
+            @RequestParam("marca") String marca,
+            @RequestParam("precio") Double precio,
+            @RequestParam("categoriaId") Long categoriaId,
+            @RequestParam("imagen") MultipartFile imagen) {
+
+        // Crear un nuevo producto
+        Producto nuevoProducto = new Producto();
+        nuevoProducto.setNombre(nombre);
+        nuevoProducto.setDescripcion(descripcion);
+        nuevoProducto.setOrigenProducto(origenProducto);
+        nuevoProducto.setMarca(marca);
+        nuevoProducto.setPrecio(precio);
+        nuevoProducto.setCategoria(categoriaService.findById(categoriaId));
+
+        // Manejo del archivo de imagen
+        if (!imagen.isEmpty()) {
+            String fileName = imagen.getOriginalFilename();
+            nuevoProducto.setImagen(fileName); // Asume que tu modelo tiene un campo para almacenar el nombre de la
+            try {
+                // Guardar el archivo en el servidor
+                FileOutputStream fileOutputStream = new FileOutputStream("src/images/" + fileName);
+                fileOutputStream.write(imagen.getBytes());
+                fileOutputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        Producto productoCreado = productoService.save(nuevoProducto);
+
+        return ResponseEntity.ok(productoCreado);
     }
 
     @PutMapping("/{id}")
-    public Producto updateProductoById(@PathVariable Long id, @RequestBody Producto producto) {
-        Producto existProducto = productoService.findById(id);
-        if (existProducto == null) {
-            throw new ActualizarException("Producto no encontrado - " + id);
+    public ResponseEntity<Producto> actualizarProducto(
+            @PathVariable Long id,
+            @RequestParam("nombre") String nombre,
+            @RequestParam("descripcion") String descripcion,
+            @RequestParam("origenProducto") String origenProducto,
+            @RequestParam("marca") String marca,
+            @RequestParam("precio") Double precio,
+            @RequestParam("categoriaId") Long categoriaId,
+            @RequestParam(value = "imagen", required = false) MultipartFile imagen) {
+        try {
+            // Buscar el producto existente
+            Optional<Producto> productoExistente = Optional.ofNullable(productoService.findById(id));
+            if (!productoExistente.isPresent()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            Producto producto = productoExistente.get();
+
+            // Actualizar los campos del producto
+            producto.setNombre(nombre);
+            producto.setDescripcion(descripcion);
+            producto.setOrigenProducto(origenProducto);
+            producto.setMarca(marca);
+            producto.setPrecio(precio);
+            producto.setCategoria(categoriaService.findById(categoriaId));
+
+            // Si se ha enviado una nueva imagen, actualiza el campo de imagen
+            if (imagen != null && !imagen.isEmpty()) {
+                String fileName = imagen.getOriginalFilename();
+                producto.setImagen(fileName); // Asume que tu modelo tiene un campo para almacenar el nombre de la
+                try {
+                    // Guardar el archivo en el servidor
+                    FileOutputStream fileOutputStream = new FileOutputStream("src/images/" + fileName);
+                    fileOutputStream.write(imagen.getBytes());
+                    fileOutputStream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            Producto productoActualizado = productoService.save(producto);
+
+            return ResponseEntity.ok(productoActualizado);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
         }
-        producto.setIdProducto(id);
-        return productoService.save(producto);
+
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProducto(@PathVariable int id) {
-
+    public void deleteProducto(@PathVariable Long id) {
+        productoService.deleteById(id);
     }
 
     @GetMapping("/{id}/image")

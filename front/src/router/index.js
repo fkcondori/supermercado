@@ -16,9 +16,10 @@ const routes = [
   },
   {
     path: "/productos",
-    name: "Producto",
+    //path: "/productos",
+    name: "Productos",
     component: Producto,
-    props: true,
+    props: true
   },
 ];
 

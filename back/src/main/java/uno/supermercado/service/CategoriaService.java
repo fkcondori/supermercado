@@ -13,9 +13,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import org.springframework.transaction.annotation.Transactional;
+
+import uno.supermercado.exception.EliminarException;
 import uno.supermercado.model.Categoria;
 import uno.supermercado.model.Producto;
 import uno.supermercado.repository.CategoriaRepository;
+import uno.supermercado.repository.ProductoRepository;
 
 @Service
 @Transactional
@@ -23,6 +26,9 @@ public class CategoriaService {
 
     @Autowired
     private CategoriaRepository categoriaRepository;
+
+    @Autowired
+    private ProductoRepository productoRepository;
 
     @Transactional(readOnly = true)
     public List<Categoria> findAll() {
@@ -40,12 +46,17 @@ public class CategoriaService {
         return categoria != null ? categoria.getProductos() : null;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Categoria save(Categoria categoria) {
         return categoriaRepository.save(categoria);
     }
 
     public void deleteById(Long id) {
+        // Verificar si la categoría tiene productos asociados
+        if (productoRepository.findByCategoriaId(id).size() > 0) {
+            throw new EliminarException(
+                    "La categoría tiene productos asociados y no puede ser eliminada.");
+        }
         categoriaRepository.deleteById(id);
     }
 

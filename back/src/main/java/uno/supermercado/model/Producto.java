@@ -28,8 +28,7 @@ import jakarta.validation.constraints.Pattern;
 @NoArgsConstructor
 public class Producto {
     @Id
-    @SequenceGenerator(name = "producto_id_seq", sequenceName = "producto_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "producto_id_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_producto")
     private Long idProducto;
 

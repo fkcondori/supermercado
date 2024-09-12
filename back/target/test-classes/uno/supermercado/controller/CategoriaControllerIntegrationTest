@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -33,8 +31,16 @@ public class CategoriaControllerIntegrationTest {
 
     @Test
     public void testGetAllCategorias() throws Exception {
+        // Preparar datos
+        Categoria categoria = new Categoria();
+        categoria.setNombre("Categoria 1");
+        categoria.setDescripcion("Descripcion 1");
+        categoriaRepository.save(categoria);
+
+        // Ejecutar y verificar
         mockMvc.perform(get("/api/categorias"))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].nombre").value("Categoria 1"))
                 .andExpect(jsonPath("$").isArray());
     }
 

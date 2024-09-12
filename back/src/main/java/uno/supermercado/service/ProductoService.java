@@ -34,12 +34,16 @@ public class ProductoService {
 
     @Transactional(readOnly = true)
     public Producto save(Producto producto) {
-        producto.setImagen(concatenateRandomString(producto.getImagen()));
+        producto.setImagen(producto.getImagen());
         return productoRepository.save(producto);
     }
 
     public void deleteById(Long id) {
         productoRepository.deleteById(id);
+    }
+
+    public List<Producto> findByCategoriaId(Long categoriaId) {
+        return productoRepository.findByCategoriaId(categoriaId);
     }
 
     // EN EL OTRO PROYECTO UTILIZAN EL PAQUETE NIO Y POR ESO NO DAN EXCEPCIONES
@@ -57,25 +61,4 @@ public class ProductoService {
         }
     }
 
-    private String concatenateRandomString(String imagen) {
-        String randomString = generateRandomString(3);
-        int dotIndex = imagen.lastIndexOf('.');
-        String baseUrl = System.getProperty("base.url") + "/images/"; // Use System.getProperty() instead of
-                                                                      // getProperty()
-        if (dotIndex != -1) {
-            return baseUrl + imagen.substring(0, dotIndex) + randomString + imagen.substring(dotIndex);
-        } else {
-            return baseUrl + imagen + randomString;
-        }
-    }
-
-    private String generateRandomString(int length) {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        SecureRandom random = new SecureRandom();
-        StringBuilder sb = new StringBuilder(length);
-        for (int i = 0; i < length; i++) {
-            sb.append(characters.charAt(random.nextInt(characters.length())));
-        }
-        return sb.toString();
-    }
 }
