@@ -1,18 +1,20 @@
 <template>
   <div class="contenedor container-fluid">
-    <div class="d-flex justify-content-center align-items-center">
-      <h2 class="mb-4">Productos</h2>
-    </div>
-    <button @click="abrirModalAdd" class="btn btn-success mb-3">Añadir</button>
+    <div> 
+      <div class="d-flex justify-content-center align-items-center">
+        <h2 class="mb-4">Productos</h2>
+      </div>
+      <button @click="abrirModalAdd" class="btn btn-success mb-3">Añadir</button>
 
-    <!-- Desplegable de Categorías -->
-    <div class="mb-4">
-      <select v-model="categoriaId" @change="filterByCategory" class="form-select">
-        <option value="-1">Mostrar Todos</option>
-        <option v-for="categoria in categorias" :key="categoria.id" :value="categoria.id">
-          {{ categoria.nombre }}
-        </option>
-      </select>
+      <!-- Desplegable de Categorías -->
+      <div class="mb-4">
+        <select v-model="categoriaId" @change="filterByCategory" class="form-select">
+          <option value="-1">Mostrar Todos</option>
+          <option v-for="categoria in categorias" :key="categoria.id" :value="categoria.id">
+            {{ categoria.nombre }}
+          </option>
+        </select>
+      </div>
     </div>
     
     <div class="row">
@@ -342,6 +344,8 @@ export default {
 </script>
 
 <style scoped>
+
+
 .scroll-container {
   display: flex;
   align-items: center;

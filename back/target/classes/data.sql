@@ -14,7 +14,8 @@ INSERT INTO categoria (nombre, descripcion, fecha_creacion, fecha_actualizacion)
 ('Higiene Personal', 'Productos de higiene personal', '2023-01-01', '2023-01-01'),
 ('Mascotas', 'Productos para mascotas', '2023-01-01', '2023-01-01'),
 ('Electrónica', 'Productos electrónicos', '2023-01-01', '2023-01-01'),
-('Ropa', 'Ropa y accesorios', '2023-01-01', NULL);
+('Ropa', 'Ropa y accesorios', '2023-01-01', NULL),
+('Bebés', 'Manta', '2024-01-01', NULL);
 
 -- Insertar más datos en la tabla producto con descripciones en español
 INSERT INTO producto (nombre, descripcion, precio, imagen, marca, origen_producto, id_categoria) VALUES

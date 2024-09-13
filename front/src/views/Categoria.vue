@@ -1,8 +1,8 @@
 <template>
   <div class="container-fluid">
     <div class="d-flex justify-content-center align-items-center">
-  <h2 class="mb-4">Categorías</h2>
-</div>
+      <h2 class="mb-4">Categorías</h2>
+    </div>
     <!-- Botón para añadir una nueva categoría y abrir el modal -->
     <button @click="abrirModal" class="btn btn-success mb-3">Añadir</button>
 
@@ -16,7 +16,7 @@
             <th scope="col">Creación</th>
             <th scope="col">Actualización</th>
             <th scope="col"></th>
-            <th scope="col"></th>
+            <th scope="col">Productos</th>
           </tr>
         </thead>
         <tbody>
@@ -37,7 +37,7 @@
             </td>
             <td class="align-items-center">
               <div class="d-flex justify-content-center">
-              <button @click="verProductos(categoria.id)" class="btn btn-primary btn-sm">Ver Productos</button>
+              <button @click="verProductos(categoria.id)" class="btn btn-peq btn-primary btn-sm"><i class="fa-regular fa-eye"></i></button>
               </div>
             </td>
           </tr>
@@ -194,8 +194,9 @@ export default {
 
     guardarCategoria() {
       if (this.nuevaCategoria.nombre && this.nuevaCategoria.descripcion) {
-        this.nuevaCategoria.fechaCreacion = new Date();
-        this.nuevaCategoria.fechaActualizacion = new Date();
+        const fechaActual = new Date().toISOString().split('T')[0];
+        this.nuevaCategoria.fechaCreacion = fechaActual;
+        this.nuevaCategoria.fechaActualizacion = fechaActual;
         axios.post('/api/categorias', this.nuevaCategoria)
           .then(response => {
             console.log('Categoría creada:', response.data);
