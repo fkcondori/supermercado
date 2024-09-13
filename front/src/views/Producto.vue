@@ -278,9 +278,9 @@ export default {
     const formData = new FormData();
 
     // Verifica si se ha proporcionado una nueva categoría
-    let categoria = this.nuevoProducto.categoriaId == undefined 
-    ? this.nuevoProducto.categoriaId 
-    : this.productoOriginal.categoriaId;
+    let categoria = this.nuevoProducto.categoriaId !== undefined 
+  ? this.nuevoProducto.categoriaId 
+  : this.productoOriginal.categoriaId;
     console.log('Categoría seleccionada:', categoria);
     // Añade los datos actualizados del producto
     formData.append('id', this.nuevoProducto.idProducto);

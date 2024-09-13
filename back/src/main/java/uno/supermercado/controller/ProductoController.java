@@ -97,44 +97,37 @@ public class ProductoController {
             @RequestParam("precio") Double precio,
             @RequestParam("categoriaId") Long categoriaId,
             @RequestParam(value = "imagen", required = false) MultipartFile imagen) {
-        try {
-            // Buscar el producto existente
-            Optional<Producto> productoExistente = Optional.ofNullable(productoService.findById(id));
-            if (!productoExistente.isPresent()) {
-                return ResponseEntity.notFound().build();
-            }
 
-            Producto producto = productoExistente.get();
-
-            // Actualizar los campos del producto
-            producto.setNombre(nombre);
-            producto.setDescripcion(descripcion);
-            producto.setOrigenProducto(origenProducto);
-            producto.setMarca(marca);
-            producto.setPrecio(precio);
-            producto.setCategoria(categoriaService.findById(categoriaId));
-
-            // Si se ha enviado una nueva imagen, actualiza el campo de imagen
-            if (imagen != null && !imagen.isEmpty()) {
-                String fileName = imagen.getOriginalFilename();
-                producto.setImagen(fileName); // Asume que tu modelo tiene un campo para almacenar el nombre de la
-                try {
-                    // Guardar el archivo en el servidor
-                    FileOutputStream fileOutputStream = new FileOutputStream("src/images/" + fileName);
-                    fileOutputStream.write(imagen.getBytes());
-                    fileOutputStream.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            Producto productoActualizado = productoService.save(producto);
-
-            return ResponseEntity.ok(productoActualizado);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+        // Buscar el producto existente
+        Producto producto = productoService.findById(id);
+        if (producto == null) {
+            throw new ActualizarException("Producto no encontrado - " + id);
         }
+        // Actualizar los campos del producto
+        producto.setNombre(nombre);
+        producto.setDescripcion(descripcion);
+        producto.setOrigenProducto(origenProducto);
+        producto.setMarca(marca);
+        producto.setPrecio(precio);
+        producto.setCategoria(categoriaService.findById(categoriaId));
+
+        // Si se ha enviado una nueva imagen, actualiza el campo de imagen
+        if (imagen != null && !imagen.isEmpty()) {
+            String fileName = imagen.getOriginalFilename();
+            producto.setImagen(fileName); // Asume que tu modelo tiene un campo para almacenar el nombre de la
+            try {
+                // Guardar el archivo en el servidor
+                FileOutputStream fileOutputStream = new FileOutputStream("src/images/" + fileName);
+                fileOutputStream.write(imagen.getBytes());
+                fileOutputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        Producto productoActualizado = productoService.save(producto);
+
+        return ResponseEntity.ok(productoActualizado);
 
     }
 

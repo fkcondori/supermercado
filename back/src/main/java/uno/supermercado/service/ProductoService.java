@@ -34,7 +34,6 @@ public class ProductoService {
 
     @Transactional(readOnly = true)
     public Producto save(Producto producto) {
-        producto.setImagen(producto.getImagen());
         return productoRepository.save(producto);
     }
 
