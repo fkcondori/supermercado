@@ -68,6 +68,7 @@ public class CategoriaController {
         }
         categoriaActual.setNombre(categoria.getNombre());
         categoriaActual.setDescripcion(categoria.getDescripcion());
+        categoriaActual.setFechaActualizacion(categoria.getFechaActualizacion());
         return categoriaService.save(categoriaActual);
     }
 

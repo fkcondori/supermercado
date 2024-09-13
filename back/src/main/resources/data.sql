@@ -1,19 +1,19 @@
 -- Insertar más datos en la tabla categoria
 INSERT INTO categoria (nombre, descripcion, fecha_creacion, fecha_actualizacion) VALUES
-('Lácteos', 'Productos derivados de la leche', '2023-01-01', NULL),
-('Carnes', 'Productos cárnicos', '2023-01-01', NULL),
-('Bebidas', 'Bebidas alcohólicas y no alcohólicas', '2023-01-01', NULL),
-('Panadería', 'Productos de panadería y pastelería', '2023-01-01', NULL),
-('Frutas y Verduras', 'Frutas y verduras frescas', '2023-01-01', NULL),
-('Congelados', 'Productos congelados', '2023-01-01', NULL),
-('Aperitivos', 'Snacks y aperitivos', '2023-01-01', NULL),
-('Cereales', 'Cereales y granos', '2023-01-01', NULL),
+('Lácteos', 'Productos derivados de la leche', '2023-01-01', '2023-01-01'),
+('Carnes', 'Productos cárnicos', '2023-01-01', '2023-01-01'),
+('Bebidas', 'Bebidas alcohólicas y no alcohólicas', '2023-01-01', '2023-10-12'),
+('Panadería', 'Productos de panadería y pastelería', '2023-01-01', '2023-01-01'),
+('Frutas y Verduras', 'Frutas y verduras frescas', '2023-01-01', '2024-07-07'),
+('Congelados', 'Productos congelados', '2023-01-01', '2023-01-01'),
+('Aperitivos', 'Snacks y aperitivos', '2023-01-01', '2023-01-01'),
+('Cereales', 'Cereales y granos', '2023-01-01', '2023-01-01'),
 ('Especias y Condimentos', 'Especias, hierbas y condimentos', '2023-01-01', NULL),
-('Productos en Conserva', 'Productos enlatados y conservas', '2023-01-01', NULL),
+('Productos en Conserva', 'Productos enlatados y conservas', '2023-01-01', '2024-01-02'),
 ('Limpieza', 'Productos de limpieza', '2023-01-01', NULL),
-('Higiene Personal', 'Productos de higiene personal', '2023-01-01', NULL),
-('Mascotas', 'Productos para mascotas', '2023-01-01', NULL),
-('Electrónica', 'Productos electrónicos', '2023-01-01', NULL),
+('Higiene Personal', 'Productos de higiene personal', '2023-01-01', '2023-01-01'),
+('Mascotas', 'Productos para mascotas', '2023-01-01', '2023-01-01'),
+('Electrónica', 'Productos electrónicos', '2023-01-01', '2023-01-01'),
 ('Ropa', 'Ropa y accesorios', '2023-01-01', NULL);
 
 -- Insertar más datos en la tabla producto con descripciones en español

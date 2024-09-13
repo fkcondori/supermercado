@@ -2,6 +2,7 @@
 /home/keyla/Desktop/proyectos/supermercado/back/src/main/java/uno/supermercado/controller/CategoriaController.java
 /home/keyla/Desktop/proyectos/supermercado/back/src/main/java/uno/supermercado/controller/ProductoController.java
 /home/keyla/Desktop/proyectos/supermercado/back/src/main/java/uno/supermercado/exception/ActualizarException.java
+/home/keyla/Desktop/proyectos/supermercado/back/src/main/java/uno/supermercado/exception/EliminarException.java
 /home/keyla/Desktop/proyectos/supermercado/back/src/main/java/uno/supermercado/model/Categoria.java
 /home/keyla/Desktop/proyectos/supermercado/back/src/main/java/uno/supermercado/model/Producto.java
 /home/keyla/Desktop/proyectos/supermercado/back/src/main/java/uno/supermercado/repository/CategoriaRepository.java

@@ -127,6 +127,8 @@ export default {
         id: null,
         nombre: '',
         descripcion: '',
+        fechaCreacion: null,
+        fechaActualizacion: null
       },
     };
   },
@@ -192,6 +194,8 @@ export default {
 
     guardarCategoria() {
       if (this.nuevaCategoria.nombre && this.nuevaCategoria.descripcion) {
+        this.nuevaCategoria.fechaCreacion = new Date();
+        this.nuevaCategoria.fechaActualizacion = new Date();
         axios.post('/api/categorias', this.nuevaCategoria)
           .then(response => {
             console.log('Categoría creada:', response.data);
@@ -213,10 +217,11 @@ export default {
 
     actualizarCategoria() {
       if (this.nuevaCategoria.nombre && this.nuevaCategoria.descripcion) {
+        this.nuevaCategoria.fechaActualizacion = new Date();
         axios.put(`/api/categorias/${this.nuevaCategoria.id}`, this.nuevaCategoria)
           .then(response => {
+            this.getAllCategoria();
             console.log('Categoría actualizada:', response.data);
-            this.getAllCategoria(); // Actualizar la lista después de editar
             this.cerrarModal();
             this.mostrarMensajeExito = true;
             this.mensajeExito = 'Categoría actualizada exitosamente.';
