@@ -32,8 +32,9 @@ public class ProductoService {
         return productoRepository.findById(id).orElse(null);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Producto save(Producto producto) {
+        productoRepository.flush();
         return productoRepository.save(producto);
     }
 

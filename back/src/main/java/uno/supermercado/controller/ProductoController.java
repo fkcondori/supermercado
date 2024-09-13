@@ -7,6 +7,10 @@ import uno.supermercado.service.CategoriaService;
 import uno.supermercado.service.ProductoService;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,32 +107,40 @@ public class ProductoController {
         if (producto == null) {
             throw new ActualizarException("Producto no encontrado - " + id);
         }
+
         // Actualizar los campos del producto
         producto.setNombre(nombre);
         producto.setDescripcion(descripcion);
         producto.setOrigenProducto(origenProducto);
         producto.setMarca(marca);
         producto.setPrecio(precio);
-        producto.setCategoria(categoriaService.findById(categoriaId));
+
+        // Verificar si la categoría existe antes de asignarla
+        Categoria categoria = categoriaService.findById(categoriaId);
+        if (categoria == null) {
+            throw new ActualizarException("Categoría no encontrada - " + categoriaId);
+        }
+        producto.setCategoria(categoria);
 
         // Si se ha enviado una nueva imagen, actualiza el campo de imagen
         if (imagen != null && !imagen.isEmpty()) {
-            String fileName = imagen.getOriginalFilename();
-            producto.setImagen(fileName); // Asume que tu modelo tiene un campo para almacenar el nombre de la
             try {
                 // Guardar el archivo en el servidor
-                FileOutputStream fileOutputStream = new FileOutputStream("src/images/" + fileName);
-                fileOutputStream.write(imagen.getBytes());
-                fileOutputStream.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+                String fileName = imagen.getOriginalFilename();
+                Path path = Paths.get("src/images/" + fileName);
+
+                // Guardar la imagen en el servidor
+                Files.write(path, imagen.getBytes());
+                producto.setImagen(fileName); // Guardar el nombre del archivo en la base de datos
+            } catch (IOException e) {
+                throw new ActualizarException("Error al guardar la imagen - " + e.getMessage());
             }
         }
 
+        // Guardar el producto actualizado
         Producto productoActualizado = productoService.save(producto);
 
         return ResponseEntity.ok(productoActualizado);
-
     }
 
     @DeleteMapping("/{id}")
